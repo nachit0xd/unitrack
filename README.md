@@ -115,20 +115,30 @@ Implementation has not started yet.
 
 ## Documentation
 
-Project planning and technical design documentation will be
+Project planning and technical design documentation is
 maintained in the `docs/` directory.
 
-The documentation will cover:
+### Planning
 
-- Project scope and objectives.
-- Functional and non-functional requirements.
-- Business rules.
-- Use cases.
-- Database design.
-- Software architecture.
-- REST API design.
-- User interface wireframes.
-- Development roadmap.
+- [Project Overview](docs/planning/project-overview.md)
+- [Software Requirements](docs/planning/requirements.md)
+- [Business Rules](docs/planning/business-rules.md)
+- [Development Roadmap](docs/planning/roadmap.md)
+
+### Technical Design
+
+- [Use Cases](docs/design/use-cases.md)
+- [Database Design](docs/design/database-design.md)
+- [Software Architecture](docs/design/architecture.md)
+- [REST API Design](docs/design/api-design.md)
+
+### Visual Documentation
+
+- [System Diagrams](docs/diagrams/)
+- [User Interface Wireframes](docs/wireframes/)
+
+Documentation will be progressively completed and updated
+throughout the development lifecycle.
 
 ## Project Purpose
 
@@ -143,7 +153,6 @@ to apply and strengthen knowledge in:
 - Automated testing.
 - Version control.
 - Containerization and deployment.
-
 
 ## License
 
