@@ -469,6 +469,19 @@ on user-provided information and supported calculation models.
 The application will not guarantee that calculated results
 match official institutional academic records.
 
+The initial numeric grading domain supports values ranging
+from 0.00 to 100.00, with up to two decimal places.
+
+Each course will use its own configured grading scale
+within this supported numeric domain.
+
+Academic passing decisions will be based on calculated
+results before display rounding.
+
+Detailed calculation formulas, academic status definitions,
+validation rules, and rounding policies are specified in
+the [Business Rules](business-rules.md) document.
+
 ## 10. Technology Overview
 
 The project will use the following technology stack.
