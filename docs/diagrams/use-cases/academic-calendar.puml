@@ -1,0 +1,42 @@
+
+@startuml
+
+title UniTrack - Academic Calendar
+
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+actor "Student\nACT-002" as Student
+
+rectangle "UniTrack - Academic Calendar" {
+
+    package "Calendar Consultation" {
+        usecase "UC-027\nView Academic Calendar" as UC027
+        usecase "UC-028\nView Upcoming Assessments" as UC028
+    }
+
+    package "Custom Academic Events" {
+        usecase "UC-029\nCreate Custom Academic Event" as UC029
+        usecase "UC-030\nView Custom Academic Events" as UC030
+        usecase "UC-031\nUpdate Custom Academic Event" as UC031
+        usecase "UC-032\nDelete Custom Academic Event" as UC032
+    }
+}
+
+Student -- UC027
+Student -- UC028
+Student -- UC029
+Student -- UC030
+Student -- UC031
+Student -- UC032
+
+note right of UC027
+    Scheduled assessments are derived
+    from assessment records.
+
+    Calendar consultation may include
+    multiple academic periods.
+end note
+
+@enduml

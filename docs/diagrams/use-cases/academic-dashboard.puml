@@ -1,0 +1,30 @@
+
+@startuml
+
+title UniTrack - Academic Dashboard
+
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+actor "Student\nACT-002" as Student
+
+rectangle "UniTrack - Academic Dashboard" {
+    usecase "UC-033\nView Academic Dashboard" as UC033
+    usecase "UC-034\nView Active Period Assessment Overview" as UC034
+}
+
+Student -- UC033
+Student -- UC034
+
+UC033 ..> UC034 : <<include>>
+
+note right of UC033
+    Academic indicators are restricted
+    to the active academic period.
+
+    An informative empty state is
+    displayed when no active period exists.
+end note
+
+@enduml

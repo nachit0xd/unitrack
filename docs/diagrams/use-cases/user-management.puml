@@ -1,0 +1,37 @@
+
+@startuml
+
+title UniTrack - User Management
+
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+actor "Visitor\nACT-001" as Visitor
+actor "Student\nACT-002" as Student
+
+rectangle "UniTrack - User Management" {
+    usecase "UC-001\nRegister Account" as UC001
+    usecase "UC-002\nLog In" as UC002
+    usecase "UC-003\nLog Out" as UC003
+    usecase "UC-004\nView Profile" as UC004
+    usecase "UC-005\nUpdate Profile" as UC005
+}
+
+Visitor -- UC001
+Visitor -- UC002
+
+Student -- UC003
+Student -- UC004
+Student -- UC005
+
+note bottom of UC002
+    Successful authentication enables
+    the Student interaction context.
+end note
+
+note bottom of UC003
+    The current session is terminated.
+end note
+
+@enduml

@@ -1,0 +1,69 @@
+
+@startuml
+
+title UniTrack - Academic Management
+
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+actor "Student\nACT-002" as Student
+
+rectangle "UniTrack" {
+
+    package "Academic Management" {
+
+        package "Academic Periods" {
+            usecase "UC-006\nCreate Academic Period" as UC006
+            usecase "UC-007\nView Academic Periods" as UC007
+            usecase "UC-008\nUpdate Academic Period" as UC008
+            usecase "UC-009\nDelete Academic Period" as UC009
+            usecase "UC-010\nSet Active Academic Period" as UC010
+            usecase "UC-011\nView Historical Academic Information" as UC011
+        }
+
+        package "Courses" {
+            usecase "UC-012\nCreate Course" as UC012
+            usecase "UC-013\nView Courses" as UC013
+            usecase "UC-014\nView Course Details" as UC014
+            usecase "UC-015\nUpdate Course" as UC015
+            usecase "UC-016\nDelete Course" as UC016
+            usecase "UC-017\nConfigure Grading Parameters" as UC017
+            usecase "UC-018\nCustomize Course Information" as UC018
+        }
+    }
+
+    package "Performance Analysis" {
+        usecase "UC-025\nView Course Performance" as UC025
+    }
+}
+
+Student -- UC006
+Student -- UC007
+Student -- UC008
+Student -- UC009
+Student -- UC010
+Student -- UC011
+
+Student -- UC012
+Student -- UC013
+Student -- UC014
+Student -- UC015
+Student -- UC016
+Student -- UC017
+Student -- UC018
+
+UC014 ..> UC025 : <<include>>
+
+note bottom of UC009
+    Permanent deletion requires confirmation.
+    Dependent courses and assessments
+    are removed transactionally.
+end note
+
+note bottom of UC016
+    Associated assessments are deleted
+    after explicit confirmation.
+end note
+
+@enduml

@@ -1,0 +1,44 @@
+
+@startuml
+
+title UniTrack - Assessment Management
+
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+actor "Student\nACT-002" as Student
+
+rectangle "UniTrack - Assessment Management" {
+    usecase "UC-019\nCreate Assessment" as UC019
+    usecase "UC-020\nView Assessments" as UC020
+    usecase "UC-021\nUpdate Assessment" as UC021
+    usecase "UC-022\nDelete Assessment" as UC022
+    usecase "UC-023\nManage Assessment Grade" as UC023
+    usecase "UC-024\nSchedule Assessment" as UC024
+}
+
+Student -- UC019
+Student -- UC020
+Student -- UC021
+Student -- UC022
+Student -- UC023
+Student -- UC024
+
+note right of UC019
+    Assessment weight must be valid.
+    Total registered course weight
+    cannot exceed 100%.
+end note
+
+note right of UC023
+    A grade may be registered,
+    modified, or removed.
+end note
+
+note right of UC024
+    Scheduled assessments appear
+    automatically in the calendar.
+end note
+
+@enduml

@@ -1,0 +1,134 @@
+
+@startuml
+
+title UniTrack - General Use Case Diagram
+
+left to right direction
+
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam defaultFontName Arial
+skinparam usecase {
+    BackgroundColor #F8FAFC
+    BorderColor #475569
+    FontColor #1E293B
+}
+skinparam actor {
+    BorderColor #334155
+    FontColor #1E293B
+}
+
+actor "Visitor\nACT-001" as Visitor
+actor "Student\nACT-002" as Student
+
+rectangle "UniTrack" {
+
+    package "User Management" {
+        usecase "UC-001\nRegister Account" as UC001
+        usecase "UC-002\nLog In" as UC002
+        usecase "UC-003\nLog Out" as UC003
+        usecase "UC-004\nView Profile" as UC004
+        usecase "UC-005\nUpdate Profile" as UC005
+    }
+
+    package "Academic Management" {
+        usecase "UC-006\nCreate Academic Period" as UC006
+        usecase "UC-007\nView Academic Periods" as UC007
+        usecase "UC-008\nUpdate Academic Period" as UC008
+        usecase "UC-009\nDelete Academic Period" as UC009
+        usecase "UC-010\nSet Active Academic Period" as UC010
+        usecase "UC-011\nView Historical Academic Information" as UC011
+        usecase "UC-012\nCreate Course" as UC012
+        usecase "UC-013\nView Courses" as UC013
+        usecase "UC-014\nView Course Details" as UC014
+        usecase "UC-015\nUpdate Course" as UC015
+        usecase "UC-016\nDelete Course" as UC016
+        usecase "UC-017\nConfigure Grading Parameters" as UC017
+        usecase "UC-018\nCustomize Course Information" as UC018
+    }
+
+    package "Assessment Management" {
+        usecase "UC-019\nCreate Assessment" as UC019
+        usecase "UC-020\nView Assessments" as UC020
+        usecase "UC-021\nUpdate Assessment" as UC021
+        usecase "UC-022\nDelete Assessment" as UC022
+        usecase "UC-023\nManage Assessment Grade" as UC023
+        usecase "UC-024\nSchedule Assessment" as UC024
+    }
+
+    package "Performance Analysis" {
+        usecase "UC-025\nView Course Performance" as UC025
+        usecase "UC-026\nView Required Passing Grade" as UC026
+    }
+
+    package "Academic Calendar" {
+        usecase "UC-027\nView Academic Calendar" as UC027
+        usecase "UC-028\nView Upcoming Assessments" as UC028
+        usecase "UC-029\nCreate Custom Academic Event" as UC029
+        usecase "UC-030\nView Custom Academic Events" as UC030
+        usecase "UC-031\nUpdate Custom Academic Event" as UC031
+        usecase "UC-032\nDelete Custom Academic Event" as UC032
+    }
+
+    package "Academic Dashboard" {
+        usecase "UC-033\nView Academic Dashboard" as UC033
+        usecase "UC-034\nView Active Period Assessment Overview" as UC034
+    }
+}
+
+Visitor -- UC001
+Visitor -- UC002
+
+Student -- UC003
+Student -- UC004
+Student -- UC005
+
+Student -- UC006
+Student -- UC007
+Student -- UC008
+Student -- UC009
+Student -- UC010
+Student -- UC011
+Student -- UC012
+Student -- UC013
+Student -- UC014
+Student -- UC015
+Student -- UC016
+Student -- UC017
+Student -- UC018
+
+Student -- UC019
+Student -- UC020
+Student -- UC021
+Student -- UC022
+Student -- UC023
+Student -- UC024
+
+Student -- UC025
+Student -- UC026
+
+Student -- UC027
+Student -- UC028
+Student -- UC029
+Student -- UC030
+Student -- UC031
+Student -- UC032
+
+Student -- UC033
+Student -- UC034
+
+UC014 ..> UC025 : <<include>>
+UC033 ..> UC034 : <<include>>
+UC026 ..> UC025 : <<extend>>
+
+note bottom of UC025
+    Extension point:
+    passingGradeDetails
+end note
+
+note bottom of UC026
+    Extension condition:
+    Student requests passing grade details.
+end note
+
+@enduml

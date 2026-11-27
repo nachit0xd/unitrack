@@ -1,0 +1,35 @@
+
+@startuml
+
+title UniTrack - Performance Analysis
+
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+actor "Student\nACT-002" as Student
+
+rectangle "UniTrack - Performance Analysis" {
+    usecase "UC-025\nView Course Performance" as UC025
+    usecase "UC-026\nView Required Passing Grade" as UC026
+}
+
+Student -- UC025
+Student -- UC026
+
+UC026 ..> UC025 : <<extend>>
+
+note right of UC025
+    Extension point:
+    passingGradeDetails
+end note
+
+note right of UC026
+    Condition:
+    Student requests passing grade details.
+
+    The estimate considers all remaining
+    course weight, including unallocated weight.
+end note
+
+@enduml
