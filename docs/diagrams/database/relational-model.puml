@@ -1,0 +1,132 @@
+
+@startuml
+
+title UniTrack - Logical Relational Data Model
+
+top to bottom direction
+
+hide circle
+
+skinparam shadowing false
+skinparam linetype ortho
+skinparam defaultFontName Arial
+skinparam class {
+    BackgroundColor #F8FAFC
+    BorderColor #475569
+    FontColor #1E293B
+    AttributeFontColor #334155
+}
+
+entity "users" as USERS {
+    * id <<PK>>
+    --
+    * display_name
+    * email <<AK>>
+    * password_hash
+    * created_at
+    * updated_at
+}
+
+entity "academic_periods" as PERIODS {
+    * id <<PK>>
+    --
+    * user_id <<FK>>
+    * name
+    * start_date
+    * end_date
+    * is_active
+    * created_at
+    * updated_at
+}
+
+entity "courses" as COURSES {
+    * id <<PK>>
+    --
+    * academic_period_id <<FK>>
+    * name
+    code
+    credits
+    * min_grade
+    * max_grade
+    * passing_grade
+    color
+    * created_at
+    * updated_at
+}
+
+entity "assessments" as ASSESSMENTS {
+    * id <<PK>>
+    --
+    * course_id <<FK>>
+    * name
+    description
+    * weight
+    grade
+    scheduled_date
+    scheduled_at
+    * created_at
+    * updated_at
+}
+
+entity "calendar_events" as EVENTS {
+    * id <<PK>>
+    --
+    * user_id <<FK>>
+    * title
+    description
+    start_date
+    end_date
+    start_at
+    end_at
+    * created_at
+    * updated_at
+}
+
+USERS ||--o{ PERIODS : owns
+PERIODS ||--o{ COURSES : contains
+COURSES ||--o{ ASSESSMENTS : contains
+USERS ||--o{ EVENTS : owns
+
+note right of PERIODS
+    At most one active
+    period per user.
+end note
+
+note right of COURSES
+    Default grading parameters:
+    Minimum: 1.00
+    Maximum: 7.00
+    Passing: 4.00
+
+    Academic credits and colors
+    are optional MVP features.
+end note
+
+note right of ASSESSMENTS
+    Grade may be null.
+
+    Scheduled date and timestamp
+    cannot both be populated.
+
+    Academic indicators are derived
+    from registered assessments.
+end note
+
+note right of EVENTS
+    Exactly one start modality
+    must be present.
+
+    End modality must match
+    the start modality.
+end note
+
+legend bottom
+    |= Symbol |= Meaning |
+    | PK | Primary key |
+    | FK | Foreign key |
+    | AK | Alternate candidate key |
+    | * | Individually mandatory attribute |
+    | No marker | Nullable attribute |
+endlegend
+
+@enduml

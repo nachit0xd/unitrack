@@ -7,7 +7,7 @@
 |---|---|
 | Project | UniTrack |
 | Document | Business Rules |
-| Version | 1.0 |
+| Version | 1.1 |
 | Status | Initial Specification |
 | Project Phase | Phase 0 - Planning and Design |
 
@@ -884,16 +884,52 @@ during database and API design.
 Academic period boundaries shall use calendar dates.
 
 Scheduled assessments and custom academic events shall
-support date and time information.
+support both calendar dates and timezone-aware timestamps.
 
-Timestamp-based values shall be stored using a
-timezone-aware representation.
+Calendar date values shall preserve their calendar-day
+meaning independently of timezone conversions.
 
 The initial presentation timezone shall default to
 America/Santiago.
 
-Date-only input may be supported and must preserve its
-calendar-day meaning through an appropriate representation.
+An assessment may have:
+
+- No scheduled date.
+- A scheduled calendar date without a specific time.
+- A scheduled timezone-aware timestamp.
+
+The date-only and timestamp-based scheduling modalities
+are mutually exclusive.
+
+Custom academic events shall have exactly one start
+modality and may optionally have an end value.
+
+Start and end modalities must match.
+
+End values shall not precede start values.
+
+Date-only event end dates are inclusive.
+
+A date-only event without an end date represents a
+single-day event.
+
+A timestamp-based event without an end timestamp
+represents a point-in-time event.
+
+A date-only assessment is considered upcoming when
+its scheduled date is equal to or later than the current
+calendar date in the application presentation timezone.
+
+A timestamp-based assessment is considered upcoming
+when its scheduled instant is equal to or later than
+the current instant.
+
+Unscheduled assessments shall not be classified as
+upcoming assessments.
+
+Additional temporal modeling details are specified in
+the [Database Design](../design/database-design.md)
+document.
 
 ### 11.3. Optional Academic Credits
 

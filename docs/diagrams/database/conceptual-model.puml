@@ -1,0 +1,63 @@
+
+@startuml
+
+title UniTrack - Conceptual Data Model
+
+top to bottom direction
+
+hide circle
+hide members
+
+skinparam shadowing false
+skinparam linetype ortho
+skinparam defaultFontName Arial
+skinparam class {
+    BackgroundColor #F8FAFC
+    BorderColor #475569
+    FontColor #1E293B
+}
+
+entity "User\nENT-001" as USER
+
+entity "Academic Period\nENT-002" as PERIOD
+
+entity "Course\nENT-003" as COURSE
+
+entity "Assessment\nENT-004" as ASSESSMENT
+
+entity "Custom Academic Event\nENT-005" as EVENT
+
+USER ||--o{ PERIOD : owns
+PERIOD ||--o{ COURSE : contains
+COURSE ||--o{ ASSESSMENT : contains
+USER ||--o{ EVENT : owns
+
+note right of PERIOD
+    A user may have zero or
+    one active academic period.
+end note
+
+note right of EVENT
+    Custom events are independent
+    of periods and courses.
+
+    Assessment calendar entries
+    are derived from assessments.
+end note
+
+note right of ASSESSMENT
+    Total registered course weight
+    must not exceed 100%.
+
+    Grades are optional and must
+    respect the course grading scale.
+end note
+
+legend bottom
+    |= Notation |= Meaning |
+    | ENT | Domain entity identifier |
+    | Exactly one | Mandatory parent |
+    | Zero or many | Optional collection |
+endlegend
+
+@enduml
