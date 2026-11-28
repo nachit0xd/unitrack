@@ -1,0 +1,167 @@
+
+@startuml
+
+title UniTrack - PostgreSQL Physical Data Model
+
+top to bottom direction
+
+hide circle
+
+skinparam shadowing false
+skinparam linetype ortho
+skinparam defaultFontName Arial
+
+skinparam class {
+    BackgroundColor #F8FAFC
+    BorderColor #475569
+    FontColor #1E293B
+    AttributeFontColor #334155
+}
+
+entity "users" as USERS {
+    * id : UUID <<PK>>
+    --
+    * display_name : VARCHAR(100)
+    * email : VARCHAR(254) <<UQ>>
+    * password_hash : TEXT
+    * created_at : TIMESTAMPTZ
+    * updated_at : TIMESTAMPTZ
+}
+
+entity "academic_periods" as PERIODS {
+    * id : UUID <<PK>>
+    --
+    * user_id : UUID <<FK>>
+    * name : VARCHAR(100)
+    * start_date : DATE
+    * end_date : DATE
+    * is_active : BOOLEAN = FALSE
+    * created_at : TIMESTAMPTZ
+    * updated_at : TIMESTAMPTZ
+}
+
+entity "courses" as COURSES {
+    * id : UUID <<PK>>
+    --
+    * academic_period_id : UUID <<FK>>
+    * name : VARCHAR(150)
+    code : VARCHAR(30)
+    credits : INTEGER
+    * min_grade : NUMERIC(5,2) = 1.00
+    * max_grade : NUMERIC(5,2) = 7.00
+    * passing_grade : NUMERIC(5,2) = 4.00
+    color : VARCHAR(7)
+    * created_at : TIMESTAMPTZ
+    * updated_at : TIMESTAMPTZ
+}
+
+entity "assessments" as ASSESSMENTS {
+    * id : UUID <<PK>>
+    --
+    * course_id : UUID <<FK>>
+    * name : VARCHAR(150)
+    description : TEXT
+    * weight : NUMERIC(5,2)
+    grade : NUMERIC(5,2)
+    scheduled_date : DATE
+    scheduled_at : TIMESTAMPTZ
+    * created_at : TIMESTAMPTZ
+    * updated_at : TIMESTAMPTZ
+}
+
+entity "calendar_events" as EVENTS {
+    * id : UUID <<PK>>
+    --
+    * user_id : UUID <<FK>>
+    * title : VARCHAR(150)
+    description : TEXT
+    start_date : DATE
+    end_date : DATE
+    start_at : TIMESTAMPTZ
+    end_at : TIMESTAMPTZ
+    * created_at : TIMESTAMPTZ
+    * updated_at : TIMESTAMPTZ
+}
+
+USERS ||--o{ PERIODS : "ON DELETE RESTRICT"
+PERIODS ||--o{ COURSES : "ON DELETE CASCADE"
+COURSES ||--o{ ASSESSMENTS : "ON DELETE CASCADE"
+USERS ||--o{ EVENTS : "ON DELETE RESTRICT"
+
+note right of USERS
+    UNIQUE (email)
+
+    Normalized email
+    Argon2id password hash
+end note
+
+note left of PERIODS
+    CHECK:
+    end_date >= start_date
+
+    UNIQUE PARTIAL INDEX:
+    user_id WHERE is_active
+
+    INDEX:
+    user_id
+end note
+
+note left of COURSES
+    CHECK:
+    0 <= min_grade < max_grade <= 100
+
+    min_grade <= passing_grade <= max_grade
+
+    credits >= 0 when present
+
+    Valid hexadecimal color
+
+    INDEX:
+    academic_period_id
+end note
+
+note right of ASSESSMENTS
+    CHECK:
+    0 < weight <= 100
+
+    Grade is null or within
+    the global numeric domain
+
+    Scheduling modes are exclusive
+
+    INDEXES:
+    course_id
+    scheduled_date (partial)
+    scheduled_at (partial)
+
+    APPLICATION TRANSACTION:
+    Course weight <= 100%
+    Course-specific grade validation
+end note
+
+note right of EVENTS
+    CHECK:
+    Exactly one start modality
+
+    Matching end modality
+
+    End cannot precede start
+
+    INDEX:
+    user_id
+end note
+
+legend bottom
+    |= Notation |= Meaning |
+    | PK | Primary key |
+    | FK | Foreign key |
+    | UQ | Unique constraint |
+    | * | Individually NOT NULL |
+    | No marker | Nullable |
+    | UUID default | gen_random_uuid() |
+    | Timestamp default | CURRENT_TIMESTAMP |
+    | Update triggers | set_updated_at() |
+    | FK update policy | RESTRICT |
+endlegend
+
+@enduml
